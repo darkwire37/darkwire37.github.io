@@ -1,9 +1,4 @@
----
-layout: post
-title: "Creating a Mythic Agent (in Python)"
-date: 2022-07-22 09:36:00 -0000
-categories: Red-Team C2 Development Python
----
+
 
 ## Introduction
 During my time learning cyber, I have encountered a couple Mythic Agents running in lab environments.  Mythic seemed like an effective C2 framework, so I figured I'd make an agent myself.  
