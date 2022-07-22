@@ -1,5 +1,6 @@
-layout: page
-title: "Darkwire37"
-permalink: /
+# Welcome to my blog
 
-Content
+Content coming soon
+
+- Bullet point
+- Another one
