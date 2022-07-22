@@ -2,5 +2,3 @@
 
 Content coming soon
 
-- Bullet point
-- Another one
