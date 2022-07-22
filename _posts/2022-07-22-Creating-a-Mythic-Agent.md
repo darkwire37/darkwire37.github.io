@@ -1,5 +1,4 @@
-
-
+# Creating a Mythic Agent (In Python)
 ## Introduction
 During my time learning cyber, I have encountered a couple Mythic Agents running in lab environments.  Mythic seemed like an effective C2 framework, so I figured I'd make an agent myself.  
 Is there a better way to learn a system than develop it yourself?  I think not!
