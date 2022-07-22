@@ -1,6 +1,6 @@
 layout: post
 title: "Creating a Mythic Agent (in Python)"
-date: 07-22-22 09:36:00 -0000
+date: 2022-07-22 09:36:00 -0000
 categories: Red-Team C2 Development Python
 
 ## Introduction
