@@ -88,4 +88,8 @@ Progress: 20469 / 20470 (100.00%)
 Here we find the standard htaccess, css, js, etc. directories, but then we also find /panel, /server-status, and /uploads.  
 My initial thought is that if we have some way to upload files on the panel, we can LFI our way to executing a php webshell.  This will depend of course, on the contents of the panel.  
 
-> Uploading this portion so far, going to learn how to upload images next and continue. 
+#### The Panel!
+The panel turned out to be exactly what I thought it might be.  It is literally just a file upload page.  Here's what it looks like:
+![rootme panel](/images/2022/rootmePanel.png){:class="img-responsive"}
+
+
