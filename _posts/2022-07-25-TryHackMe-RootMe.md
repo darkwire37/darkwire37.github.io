@@ -1,5 +1,6 @@
 ## Introduction
 RootMe is a basic boot-to-root CTF on TryHackMe.  I figured it would be a nice and easy box to document as I get used to blogging.
+The box is available to check out yourself at: https://tryhackme.com/room/rrootme
 
 ## Enumeration
 As always, enumeration/recon is the first step of the engagement.  This is infosec after all, information is our game.  The more we have, the more power we hold.
