@@ -15,6 +15,7 @@ There will be a really large variety of posts here, so take a seat, grab a drink
     </h3>
     <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date_to_long_string }}</time>
    <br>
+   <hr>
   </article>
 {% endfor %}
 
