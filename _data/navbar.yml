@@ -1,5 +1,4 @@
 navbar_title: Darkwire's Cyber Blog 
 docs:
-
         - title: Home
-            url: index.html
+          url: index.html
