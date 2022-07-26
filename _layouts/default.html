@@ -22,11 +22,9 @@
         <nav>
           <ul>
             <li class="fork"><a href="https://github.com/darkwire37">GitHub</a></li>
-          </ul>
-	  <ul>
-		     {% for item in site.data.navbar.docs %}
-		     	<li class="fork"><a href="{{ item.url }}">{{ item.title }}</a></li>
-		     {% endfor %}
+		{% for item in site.data.navbar.docs %}
+		    <li class="fork"><a href="{{ item.url }}">{{ item.title }}</a></li>
+		{% endfor %}
 	  </ul>
         </nav>
       </div><!-- end header -->
