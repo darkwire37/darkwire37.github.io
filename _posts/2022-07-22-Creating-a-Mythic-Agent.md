@@ -365,7 +365,7 @@ import json
 ```
 Yeah yeah, import all the things.
 
-Here's the start of the metadata.  (Note: I called this Medusa after snakes and the whole greek gods theme of Mythic.  It turns out that there is already a Python agent called Medusa.  This one is entirely unrelated to that one.  I will probably change it at some point to help with confusion.)
+Here's the start of the metadata.  (Note: I called this Medusa after snakes and the whole greek gods theme of Mythic.  It turns out that there is already a Python agent called Medusa.  This one is entirely unrelated to that one.  I will probably change it at some point to help with confusion.)  UPDATE: It's called Lamprey now.
 ```
 #define your payload type class here, it must extend the PayloadType class though
 class Medusa(PayloadType):
