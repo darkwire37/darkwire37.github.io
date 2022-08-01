@@ -492,6 +492,6 @@ class ShellCommand(CommandBase):
 ```
 
 ### That's All, Folks!
-And with that, the agent is complete!  It has enough functionality to be either a plain backdoor, or be a starting point to be extended upon!  For more information about Mythic and development of Mythic agents, please refer to the (Mythic Docs)[https://docs.mythic-c2.net/].  
-All the code for this agent will be available on my GitHub.  
+And with that, the agent is complete!  It has enough functionality to be either a plain backdoor, or be a starting point to be extended upon!  For more information about Mythic and development of Mythic agents, please refer to the [Mythic Docs](https://docs.mythic-c2.net/).  
+All the code for this agent will be available on my [GitHub](https://github.com/darkwire37/Mythic-Lamprey).  
 Thank you for reading!  
