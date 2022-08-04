@@ -47,7 +47,7 @@ if self.get_parameter("encoding") == "base64":
 This checks the "encoding" build parameter that we specified previously to see if "base64" was selected.  If it was, encode the current base_code that is Lamprey.py.  Then, we open decoder.py and store that as a string in decoder_code.  Finally, we replace the "encoded_code" string that I mentioned earlier with encoded_code (the encoded version of Lamprey.py) and assign that to base_code, right before it returns that to Mythic.  
 
 And that's it!  We can build a base64 encoded form of Lamprey! 
-Oh man, this think looks evil.
+Oh man, this thing looks evil.
 ![lamprey base64](/images/2022/lampreyB64.png){:class="img-responsive"}
 ## Embedding in the System
 Our goal in persistence is to invisible and hard to get rid of.  Let's talk about that.  (*insert rooster breathing fire*)
@@ -58,7 +58,7 @@ A great resource I used to implement Lamprey as a service (can I please call it 
 Again, theory is only valuable if we implement it.  Let's get to work.  (Note: This won't generate in Mythic, this is a custom systemd service file that you will have to make yourself)
 
 #### Coding Time Again
-Make a file in /etc/systemd/system/ called <servicename>.service.  You could call it Lamprey.service, but do you really want to be that blatant?  I think something nicer like networkd-dispatch.service sounds much more "normal" to someone who might not know better.  Anyway, pick a name and make that file.  Then, we can write the following to that file:
+Make a file in /etc/systemd/system/ called `<servicename>.service`.  You could call it Lamprey.service, but do you really want to be that blatant?  I think something nicer like networkd-dispatch.service sounds much more "normal" to someone who might not know better.  Anyway, pick a name and make that file.  Then, we can write the following to that file:
 ```
 [Unit]
 Description=Networking daemon service dispatcher
@@ -73,15 +73,15 @@ ExecStart=/usr/bin/python3 <path to>/Lamprey.py
 WantedBy=multi-user.target
 ```
 This is the most general use-case form of this service.  There are a couple tweaks we could make though for special situations.
- - After: This tells the service to start only afer the multi-user runtime is reached.  If we wanted, we could theoretically have this service run at a lower service level.  I haven't actually tried this, but it should work in theory. 
- - Restart: Right now, restart is set to always.  This means that service will automatically restart when exited (or if it fails).  While this does add another level of persistence, it doesn't allow us to truly exit Lamprey from the Mythic console, as it will keep restarting.  If we are trying to stay hidden, there may be times when we really need Lamprey to die, which Restart=always won't allow. 
- - ExecStart: I left Lamprey.py as the filename as the file to run.  Again, this isn't very hidden.  So, I would change the name of the payload to something more similar to your service name/description.  In my case, I would probably call it networkd-dispatch.py.  
+ - **After**: This tells the service to start only afer the multi-user runtime is reached.  If we wanted, we could theoretically have this service run at a lower service level.  I haven't actually tried this, but it should work in theory. 
+ - **Restart**: Right now, restart is set to always.  This means that service will automatically restart when exited (or if it fails).  While this does add another level of persistence, it doesn't allow us to truly exit Lamprey from the Mythic console, as it will keep restarting.  If we are trying to stay hidden, there may be times when we really need Lamprey to die, which Restart=always won't allow. 
+ - **ExecStart**: I left Lamprey.py as the filename as the file to run.  Again, this isn't very hidden.  So, I would change the name of the payload to something more similar to your service name/description.  In my case, I would probably call it networkd-dispatch.py.  
 
 #### Implementation
 Once you have Lamprey.py and the service file on the target (you could even use Lamprey to make the file on the victim), we need to implement it.  There are a couple primary steps:
-1) Move the service file to /etc/systemd/system/
-2) Run `systemctl daemon-reload`.  This lets systemctl know that there is a new service.  Note this will likely require sudo perms.  If you don't have the ability to reload the daemon, you can always wait until the sysadmin does one day.  (Maybe break something subtile in on of the services and try to get the sysadmin to do this for you ;D  Don't be too noisy though.)
-3) Run `systemctl enable <service name>`.  This will cause your service to run on startup.  
+1. Move the service file to /etc/systemd/system/
+2. Run `systemctl daemon-reload`.  This lets systemctl know that there is a new service.  Note this will likely require sudo perms.  If you don't have the ability to reload the daemon, you can always wait until the sysadmin does one day.  (Maybe break something subtile in on of the services and try to get the sysadmin to do this for you ;D  Don't be too noisy though.)
+3. Run `systemctl enable <service name>`.  This will cause your service to run on startup.  
 
 And there you have it!  A nice persistence mechanism to keep your Mythic agent (or any other payload really) running on a target.
 
