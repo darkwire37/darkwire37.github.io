@@ -1,4 +1,4 @@
-# Persistence in a Victim with my Mythic Agent, Lamprey - Linux Edition
+# Linux Persistence and Evasion with Mythic Lamprey #1
 ## Introduction
 I recently developed an agent for the Mythic C2 framework.  I wanted to learn how to effectively use it, so I figured I would play with persistence methods in Linux to stay in a victim, and stay quiet.  
 Is my agent the best one out there?  No.  Are there better Python ones?  Absoulutely.  However, I understand Lamprey better then I understand Medusa (or any other agent), which will allow me to have better control of what goes on in the victim.  A tool's utility is directly proportional to your understanding of it. 
