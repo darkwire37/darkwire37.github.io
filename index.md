@@ -5,6 +5,8 @@
 I've been doing cyber for a few years now, but never blogged any of it.  That was a mistake.  So, I figured there's no time like the present to start!
 There will be a really large variety of posts here, so take a seat, grab a drink, and enjoy the chaos.  I hope you learn something in your time here.
 
+Feel free to email me at darkwire@duck.com
+
 ## All Posts
 {% for post in site.posts %}
   <article>
