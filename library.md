@@ -2,10 +2,9 @@
 >"An elegant weapon for a more civilized age." - Obi Wan Kenobi
 
 ## Persistence
-[Linux Persistence](darkwire37.github.io/_ttp/linuxPersistence.md)
+[Linux Persistence](darkwire37.github.io/ttp/linuxPersistence.md)
 
 
 ## Distractions/Trolls ~~(not really TTP, but still fun)~~
-[Linux Distractions]()
+[Linux Distractions](darkwire37.github.io/ttp/linuxDistractions.md)
 
-[Windows Distractions]()
