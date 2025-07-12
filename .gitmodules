@@ -1,0 +1,3 @@
+[submodule "jetlag_cards"]
+	path = jetlag_cards
+	url = https://github.com/darkwire37/jetlag_cards
